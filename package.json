@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "private": "true",
+  "engines": { "node": ">=20.12" },
   "scripts": {
     "lint": "turbo lint",
     "dev": "turbo dev",
