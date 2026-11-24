@@ -1,0 +1,22 @@
+{
+  "name": "@onefolio/config",
+  "version": "0.0.0",
+  "private": true,
+  "files": ["tsconfig.base.json", "eslint", "prettier.config.mjs"],
+  "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./prettier.config.mjs": "./prettier.config.mjs",
+    "./eslint/base": "./eslint/base.mjs",
+    "./eslint/node": "./eslint/node.mjs",
+    "./eslint/next": "./eslint/next.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "16.4.6",
+    "globals": "^15.14.0",
+    "typescript-eslint": "^8.19.0",
+    "prettier": "^3.4.0",
+    "typescript": "^5.7.0"
+  }
+}

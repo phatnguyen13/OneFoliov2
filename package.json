@@ -1,0 +1,19 @@
+{
+  "name": "OOO",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": "true",
+  "scripts": {
+    "lint": "turbo lint",
+    "dev": "turbo dev",
+    "build": "turbo build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.34.9",
+  "devDependencies": {
+    "turbo": "^2.11.13"
+  }
+}
