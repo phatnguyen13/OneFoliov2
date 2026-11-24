@@ -2,9 +2,16 @@ import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-import {ConfigModule} from "@nestjs/config";
+import {ConfigModule, ConfigService} from "@nestjs/config";
 import {validateEnv} from "./config/env.schema.js";
 import {PrismaModule} from "./prisma/prisma.module.js";
+import { HealthController } from './health/health.controller.js';
+import { HealthService } from './health/health.service.js';
+import {TerminusModule} from "@nestjs/terminus";
+import { RedisModule } from './redis/redis.module.js';
+import {LoggerModule} from "nestjs-pino";
+import {randomUUID} from "crypto";
+import {RedisHealthIndicator} from "./health/redis.health.js";
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -24,9 +31,29 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       appSecret: process.env.OBSERVE_APP_SECRET ?? 'YOUR_APP_SECRET',
       serviceId: 'api',
     }),
-      PrismaModule
+      PrismaModule,
+      TerminusModule,
+      RedisModule,
+      LoggerModule.forRootAsync({
+          inject: [ConfigService],
+          useFactory: (config: ConfigService) => ({
+              pinoHttp: {
+                  genReqId: (req, res) => {
+                      const id =req.headers['x-request-id']??randomUUID();
+                      res.setHeaders(new Map([['X-Request-Id', id]]));
+                      return id;
+                  },
+                  autoLogging: {
+                      ignore: (req) => req.url?.startsWith('/health')?? false
+                  },
+                  transport: config.get('NODE_ENV') === 'development'?{
+                      target: 'pino-pretty', options: {singleLine: true}
+                  } : undefined
+              }
+          })
+      })
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, HealthController],
+  providers: [AppService, HealthService, RedisHealthIndicator],
 })
 export class AppModule {}

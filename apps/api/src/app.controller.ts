@@ -10,8 +10,5 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/user')
-  countUser(){
-      return this.appService.countUsers();
-  }
+
 }

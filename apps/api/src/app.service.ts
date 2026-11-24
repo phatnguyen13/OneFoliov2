@@ -11,4 +11,8 @@ export class AppService {
   async countUsers() {
       return this.prisma.user.count()
   }
+
+  async healthCheck(){
+
+  }
 }
