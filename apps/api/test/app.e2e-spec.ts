@@ -5,7 +5,6 @@ import request from 'supertest';
 import type { App } from 'supertest/types.js';
 import { AppModule } from './../src/app.module.js';
 import {AppService} from "../src/app.service.js";
-import {HealthCheckService} from "@nestjs/terminus";
 import {AppController} from "../src/app.controller.js";
 import {PrismaService} from "../src/prisma/prisma.service.js";
 

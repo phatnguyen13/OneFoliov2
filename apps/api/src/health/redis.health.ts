@@ -12,7 +12,7 @@ export class RedisHealthIndicator{
     async pingCheck(key: string){
         const indicator = this.healthIndicator.check(key);
         try{
-            const pong = await this.redis.ping();
+            const pong: string = await this.redis.ping();
             return pong ==="PONG"?indicator.up():
                 indicator.down({message: `unexpected reply: ${pong}`});
         } catch (error){
